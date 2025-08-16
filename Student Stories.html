@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Stories - NanoCoders</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            color: white;
+            overflow-x: hidden;
+            cursor: none; /* Hide default cursor */
+        }
+
+        /* Custom Cursor */
+        .custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(45deg, #00ff88, #00cc6a);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease;
+            mix-blend-mode: difference;
+        }
+
+        .custom-cursor.hover {
+            transform: scale(1.5);
+            background: linear-gradient(45deg, #00ff88, #00ccff);
+        }
+
+        /* Header Section */
+        .header {
+            text-align: center;
+            padding: 80px 20px 60px;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 204, 102, 0.05));
+            margin-top: 80px; /* Account for fixed navigation */
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #00ff88, #00ccff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #ccc;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Student Stories Container */
+        .stories-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Grid Layout */
+        .stories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        /* Student Card */
+        .student-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .student-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .student-card:hover::before {
+            left: 100%;
+        }
+
+        .student-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 255, 136, 0.5);
+            box-shadow: 0 20px 40px rgba(0, 255, 136, 0.2);
+        }
+
+        .student-photo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #00ff88;
+            margin: 0 auto 20px;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .student-card:hover .student-photo {
+            transform: scale(1.1);
+        }
+
+        .student-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .student-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #00ff88;
+            margin-bottom: 5px;
+        }
+
+        .student-details {
+            color: #ccc;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .student-course {
+            background: linear-gradient(45deg, #00ff88, #00cc6a);
+            color: #0a0a0a;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .student-testimonial {
+            color: #ccc;
+            line-height: 1.6;
+            font-style: italic;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .student-achievement {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .achievement-label {
+            color: #00ff88;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .achievement-text {
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        /* Carousel Navigation */
+        .carousel-nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background: #00ff88;
+            transform: scale(1.2);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .header p {
+                font-size: 1rem;
+            }
+
+            .stories-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .student-card {
+                padding: 25px;
+            }
+
+            .student-photo {
+                width: 80px;
+                height: 80px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 60px 15px 40px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .stories-container {
+                padding: 20px 15px;
+            }
+
+            .student-card {
+                padding: 20px;
+            }
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .fade-in:nth-child(2) { animation-delay: 0.1s; }
+        .fade-in:nth-child(3) { animation-delay: 0.2s; }
+        .fade-in:nth-child(4) { animation-delay: 0.3s; }
+        .fade-in:nth-child(5) { animation-delay: 0.4s; }
+        .fade-in:nth-child(6) { animation-delay: 0.5s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Hover Effects */
+        .student-card:hover .student-name {
+            color: #00ccff;
+        }
+
+        .student-card:hover .student-course {
+            background: linear-gradient(45deg, #00ccff, #00ff88);
+        }
+    </style>
+</head>
+<body>
+    <!-- NavBar -->
+    <div class="nav" role="navigation" aria-label="Main navigation">
+        <div class="container">
+            <div class="logo-section">
+                <a href="index.html" aria-label="Go to NanoCoders homepage">
+                    <h1 class="logo">NanoCoders</h1>
+                    <p class="tagline">Learn.Code.Play</p>
+                </a>
+            </div>
+            <ul class="nav-links" role="menubar">
+                <li role="none"><a href="index.html" role="menuitem" aria-label="Go to homepage">Home</a></li>
+                <li role="none"><a href="About.html" role="menuitem" aria-label="Learn more about NanoCoders">About</a></li>
+                <li role="none"><a href="Success.html" role="menuitem" aria-label="View student success stories">Success</a></li>
+                <li role="none"><a href="Student Stories.html" role="menuitem" aria-label="Read student testimonials" class="active">Student Stories</a></li>
+                <li role="none"><a href="course.html" role="menuitem" aria-label="Browse our courses">Course</a></li>
+                <li role="none"><a href="../Login/index.html" role="menuitem" aria-label="Login to your account">Login</a></li>
+                <li role="none"><a href="../Login/register.html" role="menuitem" aria-label="Create a new account">Register</a></li>
+            </ul>
+            <div class="social-icons" role="group" aria-label="Social media links">
+                <a href="https://www.linkedin.com/company/nanocodersoff/posts/?feedView=all" aria-label="Follow us on LinkedIn" title="LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i></a>
+                <a href="https://www.facebook.com/profile.php?id=61577634068750" aria-label="Follow us on Facebook" title="Facebook"><i class="fab fa-facebook" aria-hidden="true"></i></a>
+            </div>
+            <div class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Cursor -->
+    <div class="custom-cursor"></div>
+
+    <!-- Header Section -->
+    <section class="header">
+        <h1>Student Success Stories</h1>
+        <p>Discover how our students transformed their careers through our cutting-edge coding programs. Real stories, real results, real inspiration.</p>
+    </section>
+
+    <!-- Student Stories Container -->
+    <section class="stories-container">
+        <div class="stories-grid">
+            <!-- Student Card 1 -->
+            <div class="student-card fade-in">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face" alt="Alex Chen" class="student-photo">
+                <div class="student-info">
+                    <h3 class="student-name">Alex Chen</h3>
+                    <div class="student-details">Age: 24 | Location: San Francisco</div>
+                    <div class="student-course">Full-Stack Development</div>
+                </div>
+                <p class="student-testimonial">"NanoCoders transformed my career completely. From a retail worker to a full-stack developer in just 6 months. The hands-on projects and mentorship were game-changing!"</p>
+                <div class="student-achievement">
+                    <div class="achievement-label">Achievement</div>
+                    <div class="achievement-text">Landed $85K job at TechCorp within 2 weeks of graduation</div>
+                </div>
+            </div>
+
+            <!-- Student Card 2 -->
+            <div class="student-card fade-in">
+                <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=200&h=200&fit=crop&crop=face" alt="Sarah Johnson" class="student-photo">
+                <div class="student-info">
+                    <h3 class="student-name">Sarah Johnson</h3>
+                    <div class="student-details">Age: 28 | Location: New York</div>
+                    <div class="student-course">Data Science & AI</div>
+                </div>
+                <p class="student-testimonial">"The AI and machine learning curriculum at NanoCoders is cutting-edge. I went from knowing nothing about data science to building predictive models for Fortune 500 companies."</p>
+                <div class="student-achievement">
+                    <div class="achievement-label">Achievement</div>
+                    <div class="achievement-text">Created AI solution that increased company revenue by 23%</div>
+                </div>
+            </div>
+
+            <!-- Student Card 3 -->
+            <div class="student-card fade-in">
+                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face" alt="Marcus Rodriguez" class="student-photo">
+                <div class="student-info">
+                    <h3 class="student-name">Marcus Rodriguez</h3>
+                    <div class="student-details">Age: 31 | Location: Austin</div>
+                    <div class="student-course">Mobile App Development</div>
+                </div>
+                <p class="student-testimonial">"NanoCoders taught me not just coding, but the entire app development lifecycle. I've published 3 apps on the App Store and started my own development agency!"</p>
+                <div class="student-achievement">
+                    <div class="achievement-label">Achievement</div>
+                    <div class="achievement-text">Founded successful mobile app development startup</div>
+                </div>
+            </div>
+
+            <!-- Student Card 4 -->
+            <div class="student-card fade-in">
+                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=face" alt="Emily Watson" class="student-photo">
+                <div class="student-info">
+                    <h3 class="student-name">Emily Watson</h3>
+                    <div class="student-details">Age: 26 | Location: Seattle</div>
+                    <div class="student-course">Cybersecurity</div>
+                </div>
+                <p class="student-testimonial">"The cybersecurity program at NanoCoders is incredibly comprehensive. I learned ethical hacking, network security, and now I'm protecting major corporations from cyber threats."</p>
+                <div class="student-achievement">
+                    <div class="achievement-label">Achievement</div>
+                    <div class="achievement-text">Certified Ethical Hacker (CEH) within 4 months</div>
+                </div>
+            </div>
+
+            <!-- Student Card 5 -->
+            <div class="student-card fade-in">
+                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&crop=face" alt="David Kim" class="student-photo">
+                <div class="student-info">
+                    <h3 class="student-name">David Kim</h3>
+                    <div class="student-details">Age: 29 | Location: Los Angeles</div>
+                    <div class="student-course">Game Development</div>
+                </div>
+                <p class="student-testimonial">"Game development was always my dream. NanoCoders made it reality with their Unity and Unreal Engine courses. My first game has over 10,000 downloads!"</p>
+                <div class="student-achievement">
+                    <div class="achievement-label">Achievement</div>
+                    <div class="achievement-text">Published indie game with 10K+ downloads on Steam</div>
+                </div>
+            </div>
+
+            <!-- Student Card 6 -->
+            <div class="student-card fade-in">
+                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&h=200&fit=crop&crop=face" alt="Lisa Thompson" class="student-photo">
+                <div class="student-info">
+                    <h3 class="student-name">Lisa Thompson</h3>
+                    <div class="student-details">Age: 33 | Location: Chicago</div>
+                    <div class="student-course">DevOps & Cloud</div>
+                </div>
+                <p class="student-testimonial">"The DevOps program at NanoCoders opened doors I never imagined. I went from manual deployments to orchestrating entire cloud infrastructures with Kubernetes and AWS."</p>
+                <div class="student-achievement">
+                    <div class="achievement-label">Achievement</div>
+                    <div class="achievement-text">Senior DevOps Engineer at major cloud provider</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Carousel Navigation -->
+        <div class="carousel-nav">
+            <div class="nav-dot active"></div>
+            <div class="nav-dot"></div>
+            <div class="nav-dot"></div>
+            <div class="nav-dot"></div>
+            <div class="nav-dot"></div>
+            <div class="nav-dot"></div>
+        </div>
+    </section>
+
+    <script>
+        // Custom Cursor Effect
+        const cursor = document.querySelector('.custom-cursor');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Add hover effect to interactive elements
+        const interactiveElements = document.querySelectorAll('.student-card, .nav-dot');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.classList.add('hover');
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.classList.remove('hover');
+            });
+        });
+
+        // Carousel Navigation
+        const navDots = document.querySelectorAll('.nav-dot');
+        const studentCards = document.querySelectorAll('.student-card');
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            // Hide all cards
+            studentCards.forEach(card => {
+                card.style.display = 'none';
+            });
+            
+            // Remove active class from all dots
+            navDots.forEach(dot => {
+                dot.classList.remove('active');
+            });
+            
+            // Show current card and activate current dot
+            if (studentCards[index]) {
+                studentCards[index].style.display = 'block';
+            }
+            if (navDots[index]) {
+                navDots[index].classList.add('active');
+            }
+        }
+
+        // Add click events to navigation dots
+        navDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentSlide = index;
+                showSlide(currentSlide);
+            });
+        });
+
+        // Auto-advance carousel (optional)
+        function autoAdvance() {
+            currentSlide = (currentSlide + 1) % studentCards.length;
+            showSlide(currentSlide);
+        }
+
+        // Uncomment the line below to enable auto-advance
+        // setInterval(autoAdvance, 5000);
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all student cards
+        studentCards.forEach(card => {
+            observer.observe(card);
+        });
+
+        // Smooth scrolling for better UX
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Mobile menu toggle functionality
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        
+        if (mobileMenuToggle && navLinks) {
+            mobileMenuToggle.addEventListener('click', function() {
+                this.classList.toggle('active');
+                navLinks.classList.toggle('active');
+            });
+            
+            // Close mobile menu when clicking on a link
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileMenuToggle.classList.remove('active');
+                    navLinks.classList.remove('active');
+                });
+            });
+        }
+    </script>
+</body>
+</html> 

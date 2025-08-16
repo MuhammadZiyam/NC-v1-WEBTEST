@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Courses - NanoCoders</title>
+    
+    <!-- Google Fonts - Fredoka for consistency with main site -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for colorful icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Fredoka', sans-serif;
+            line-height: 1.6;
+            color: #FFFFFF;
+            background: #0A0A0A; /* NanoCoders dark theme */
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Navigation Bar - Matching existing site theme */
+        .nav {
+            background-color: rgba(0, 0, 0, 0.9);
+            color: white;
+            height: 80px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+        
+        .logo-section {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+        
+        .logo-section a {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            margin: 0;
+            transition: color 0.3s ease;
+        }
+        
+        .logo:hover {
+            color: #00ff88;
+        }
+        
+        .tagline {
+            font-size: 0.9rem;
+            color: #888;
+            margin: 0;
+            font-weight: 300;
+            transition: color 0.3s ease;
+        }
+        
+        .logo-section:hover .tagline {
+            color: #00ff88;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            justify-content: center;
+            flex: 2;
+        }
+        
+        .nav-links li {
+            list-style: none;
+            position: relative;
+        }
+        
+        .nav-links li a {
+            font-weight: 500;
+            font-size: 1rem;
+            padding: 12px 18px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            display: block;
+            border: 2px solid transparent;
+        }
+        
+        .nav-links li a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .nav-links li a:hover::before {
+            left: 100%;
+        }
+        
+        .nav-links li a:hover {
+            background-color: rgba(0, 255, 136, 0.1);
+            color: #00ff88;
+            border-color: rgba(0, 255, 136, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.2);
+        }
+        
+        .nav-links li a:focus {
+            outline: 3px solid #00ff88;
+            outline-offset: 2px;
+            background-color: rgba(0, 255, 136, 0.15);
+            color: #00ff88;
+        }
+        
+        .nav-links li a:active {
+            transform: translateY(0);
+            transition: transform 0.1s ease;
+        }
+        
+        /* Active state for current page */
+        .nav-links li a.active {
+            background-color: rgba(0, 255, 136, 0.2);
+            color: #00ff88;
+            border-color: #00ff88;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            flex: 1;
+            justify-content: flex-end;
+        }
+        
+        .social-icons a {
+            font-size: 1.2rem;
+            padding: 10px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .social-icons a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #00ff88, #00cc6a);
+            border-radius: 50%;
+            transform: scale(0);
+            transition: transform 0.3s ease;
+            z-index: -1;
+        }
+        
+        .social-icons a:hover::before {
+            transform: scale(1);
+        }
+        
+        .social-icons a:hover {
+            color: #0A0A0A;
+            border-color: #00ff88;
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 10px 25px rgba(0, 255, 136, 0.3);
+        }
+        
+        .social-icons a:focus {
+            outline: 3px solid #00ff88;
+            outline-offset: 2px;
+            border-color: #00ff88;
+        }
+        
+        .social-icons a:active {
+            transform: translateY(0) scale(1);
+            transition: transform 0.1s ease;
+        }
+        
+        /* Container for the courses section */
+        .courses-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 20px 40px; /* Increased top padding for nav bar */
+            position: relative;
+        }
+        
+        /* Section header styling */
+        .courses-header {
+            text-align: center;
+            margin-bottom: 80px;
+            color: white;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .courses-header h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #00ff88, #00cc6a, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease-out 0.3s forwards;
+            text-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+        }
+        
+        .courses-header p {
+            font-size: 1.4rem;
+            font-weight: 400;
+            opacity: 0;
+            max-width: 600px;
+            margin: 0 auto;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease-out 0.6s forwards;
+            color: #E0E0E0;
+        }
+        
+        /* Lanyard floating elements */
+        .lanyard {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1;
+            transition: transform 0.1s ease-out;
+        }
+        
+        .lanyard-1 {
+            top: 20%;
+            left: 5%;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #00ff88, #00cc6a);
+            border-radius: 50%;
+            opacity: 0.2;
+            animation: float 6s ease-in-out infinite;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        }
+        
+        .lanyard-2 {
+            top: 60%;
+            right: 8%;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #00cc6a, #00ff88);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 8s ease-in-out infinite reverse;
+            box-shadow: 0 0 15px rgba(0, 204, 106, 0.3);
+        }
+        
+        .lanyard-3 {
+            top: 80%;
+            left: 15%;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(45deg, #00ff88, #00cc6a);
+            border-radius: 50%;
+            opacity: 0.2;
+            animation: float 7s ease-in-out infinite;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+        
+        .lanyard-4 {
+            top: 30%;
+            right: 20%;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #00cc6a, #00ff88);
+            border-radius: 50%;
+            opacity: 0.15;
+            animation: float 9s ease-in-out infinite reverse;
+            box-shadow: 0 0 18px rgba(0, 204, 106, 0.3);
+        }
+        
+        /* Floating animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-20px) rotate(120deg); }
+            66% { transform: translateY(10px) rotate(240deg); }
+        }
+        
+        /* Scroll-triggered animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+        }
+        
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Header animations */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive grid for course cards */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* Course card styling */
+        .course-card {
+            background: #121212;
+            border: 1px solid #1F1F1F;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(50px);
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .course-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .course-card:hover {
+            transform: translateY(-10px);
+            border-color: #00ff88;
+            box-shadow: 0 20px 40px rgba(0, 255, 136, 0.1);
+        }
+        
+        /* Staggered animation for cards */
+        .course-card:nth-child(1) { transition-delay: 0.1s; }
+        .course-card:nth-child(2) { transition-delay: 0.2s; }
+        .course-card:nth-child(3) { transition-delay: 0.3s; }
+        .course-card:nth-child(4) { transition-delay: 0.4s; }
+        .course-card:nth-child(5) { transition-delay: 0.5s; }
+        .course-card:nth-child(6) { transition-delay: 0.6s; }
+        
+        /* Colorful background pattern on hover */
+        .course-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .course-card:hover::before {
+            left: 100%;
+        }
+        
+        /* Course icon styling */
+        .course-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+        
+        .course-card:hover .course-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        /* Individual course icon colors */
+        .course-icon.basic-coding { background: linear-gradient(135deg, #00ff88, #00cc6a); }
+        .course-icon.game-dev { background: linear-gradient(135deg, #00cc6a, #00ff88); }
+        .course-icon.web-dev { background: linear-gradient(135deg, #00ff88, #00cc6a); }
+        .course-icon.app-dev { background: linear-gradient(135deg, #00cc6a, #00ff88); }
+        .course-icon.graphic-design { background: linear-gradient(135deg, #00ff88, #00cc6a); }
+        .course-icon.bootcamps { background: linear-gradient(135deg, #00cc6a, #00ff88); }
+        
+        /* Course content styling */
+        .course-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #FFFFFF;
+        }
+        
+        .course-card p {
+            font-size: 1rem;
+            color: #B0B0B0;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        
+        /* Learn More button styling */
+        .learn-more-btn {
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #0A0A0A;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .learn-more-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 255, 136, 0.4);
+            background: linear-gradient(135deg, #00cc6a, #00ff88);
+        }
+        
+        .learn-more-btn:active {
+            transform: translateY(0);
+        }
+        
+        /* Scroll progress indicator */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #00ff88, #00cc6a);
+            z-index: 1001;
+            transition: width 0.1s ease;
+        }
+        
+        /* Parallax background elements */
+        .parallax-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .parallax-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(0, 255, 136, 0.05);
+            border: 1px solid rgba(0, 255, 136, 0.1);
+            animation: parallaxFloat 20s linear infinite;
+        }
+        
+        .parallax-circle:nth-child(1) {
+            width: 200px;
+            height: 200px;
+            top: 10%;
+            left: 10%;
+            animation-duration: 25s;
+        }
+        
+        .parallax-circle:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            top: 70%;
+            right: 15%;
+            animation-duration: 30s;
+        }
+        
+        .parallax-circle:nth-child(3) {
+            width: 100px;
+            height: 100px;
+            top: 40%;
+            left: 80%;
+            animation-duration: 35s;
+        }
+        
+        @keyframes parallaxFloat {
+            0% { transform: translateY(0px) rotate(0deg); }
+            100% { transform: translateY(-100px) rotate(360deg); }
+        }
+        
+        /* Responsive design for tablets */
+        @media (max-width: 1024px) {
+            .courses-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 25px;
+            }
+            
+            .courses-header h1 {
+                font-size: 3rem;
+            }
+            
+            .courses-header p {
+                font-size: 1.2rem;
+            }
+            
+            .lanyard {
+                display: none;
+            }
+        }
+        
+        /* Responsive design for mobile devices */
+        @media (max-width: 768px) {
+            .courses-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .courses-container {
+                padding: 100px 15px 40px;
+            }
+            
+            .courses-header {
+                margin-bottom: 40px;
+            }
+            
+            .courses-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .courses-header p {
+                font-size: 1.1rem;
+            }
+            
+            .course-card {
+                padding: 25px 20px;
+            }
+            
+            .course-icon {
+                width: 70px;
+                height: 70px;
+                font-size: 2rem;
+            }
+            
+            /* Mobile navigation adjustments */
+            .nav {
+                height: 70px;
+            }
+            
+            .nav-links {
+                gap: 15px;
+            }
+            
+            .nav-links li a {
+                font-size: 0.9rem;
+                padding: 10px 14px;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .logo {
+                font-size: 1.5rem;
+            }
+            
+            .tagline {
+                font-size: 0.8rem;
+            }
+            
+            .social-icons a {
+                padding: 8px;
+                min-height: 44px;
+                min-width: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+        
+        /* Small mobile devices */
+        @media (max-width: 480px) {
+            .courses-header h1 {
+                font-size: 2rem;
+            }
+            
+            .courses-header p {
+                font-size: 1rem;
+            }
+            
+            .course-card {
+                padding: 20px 15px;
+            }
+            
+            .nav-links {
+                gap: 10px;
+            }
+            
+            .nav-links li a {
+                font-size: 0.8rem;
+                padding: 8px 12px;
+                min-height: 40px;
+            }
+            
+            .social-icons {
+                gap: 10px;
+            }
+            
+            .social-icons a {
+                padding: 6px;
+                min-height: 40px;
+                min-width: 40px;
+            }
+        }
+        
+        /* Extra small devices */
+        @media (max-width: 360px) {
+            .nav-links {
+                gap: 8px;
+            }
+            
+            .nav-links li a {
+                font-size: 0.75rem;
+                padding: 6px 10px;
+                min-height: 36px;
+            }
+            
+            .logo {
+                font-size: 1.3rem;
+            }
+            
+            .tagline {
+                font-size: 0.7rem;
+            }
+        }
+        
+        /* Accessibility improvements */
+        .course-card:focus-within {
+            outline: 3px solid #00ff88;
+            outline-offset: 2px;
+        }
+        
+        .learn-more-btn:focus {
+            outline: 3px solid #00ff88;
+            outline-offset: 2px;
+        }
+        
+        /* Smooth scrolling for better UX */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Loading animation */
+        .loading {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        
+        .loaded {
+            opacity: 1;
+            transform: scale(1);
+            transition: all 0.5s ease-out;
+        }
+        
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+            z-index: 1001;
+        }
+        
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+        
+        /* Mobile Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(0, 0, 0, 0.95);
+                backdrop-filter: blur(10px);
+                border-top: 1px solid rgba(0, 255, 136, 0.1);
+                flex-direction: column;
+                gap: 0;
+                padding: 20px 0;
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links li {
+                width: 100%;
+            }
+            
+            .nav-links li a {
+                display: block;
+                padding: 15px 20px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                text-align: center;
+            }
+            
+            .nav-links li:last-child a {
+                border-bottom: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: flex;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 0 20px;
+            }
+            
+            .courses-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .courses-header p {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <div class="nav" role="navigation" aria-label="Main navigation">
+        <div class="container">
+            <div class="logo-section">
+                <h1 class="logo">
+                    <a href="index.html" aria-label="Go to NanoCoders homepage">NanoCoders</a>
+                </h1>
+                <p class="tagline">Learn.Code.Play</p>
+            </div>
+            <ul class="nav-links" role="menubar">
+                <li role="none"><a href="index.html" role="menuitem" aria-label="Go to homepage">Home</a></li>
+                <li role="none"><a href="About.html" role="menuitem" aria-label="Learn more about NanoCoders">About</a></li>
+                <li role="none"><a href="Success.html" role="menuitem" aria-label="View student success stories">Success</a></li>
+                <li role="none"><a href="Student Stories.html" role="menuitem" aria-label="Read student testimonials">Student Stories</a></li>
+                <li role="none"><a href="course.html" role="menuitem" aria-label="Browse our courses" class="active">Course</a></li>
+                <li role="none"><a href="../Login/index.html" role="menuitem" aria-label="Login to your account">Login</a></li>
+                <li role="none"><a href="../Login/register.html" role="menuitem" aria-label="Create a new account">Register</a></li>
+            </ul>
+            <div class="social-icons" role="group" aria-label="Social media links">
+                <a href="https://www.linkedin.com/company/nanocodersoff/posts/?feedView=all" aria-label="Follow us on LinkedIn" title="LinkedIn">
+                    <i class="fab fa-linkedin" aria-hidden="true"></i>
+                </a>
+                <a href="https://www.facebook.com/profile.php?id=61577634068750" aria-label="Follow us on Facebook" title="Facebook">
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </div>
+            <div class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+    
+    <!-- Parallax Background Elements -->
+    <div class="parallax-bg">
+        <div class="parallax-circle"></div>
+        <div class="parallax-circle"></div>
+        <div class="parallax-circle"></div>
+    </div>
+    
+    <!-- Lanyard Floating Elements -->
+    <div class="lanyard lanyard-1" id="lanyard1"></div>
+    <div class="lanyard lanyard-2" id="lanyard2"></div>
+    <div class="lanyard lanyard-3" id="lanyard3"></div>
+    <div class="lanyard lanyard-4" id="lanyard4"></div>
+    
+    <!-- Main Courses Section -->
+    <section id="courses" class="courses-container" aria-labelledby="courses-title">
+        <!-- Section Header -->
+        <header class="courses-header">
+            <h1 id="courses-title">Our Courses</h1>
+            <p>Fun, Interactive, and Beginner-Friendly</p>
+        </header>
+        
+        <!-- Courses Grid -->
+        <div class="courses-grid" role="grid" aria-label="Available courses">
+            
+            <!-- Course Card 1: Basic Coding for Kids -->
+            <a href="basic-coding.html" class="course-card" role="gridcell" data-animation="fade-in-up">
+                <div class="course-icon basic-coding" aria-hidden="true">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3>Basic Coding for Kids</h3>
+                <p>Learn the fundamentals of programming with fun, interactive lessons designed specifically for young learners. Start your coding journey today!</p>
+                <span class="learn-more-btn">Learn More</span>
+            </a>
+            
+            <!-- Course Card 2: Game Development for Kids -->
+            <a href="game-development.html" class="course-card" role="gridcell" data-animation="fade-in-up">
+                <div class="course-icon game-dev" aria-hidden="true">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <h3>Game Development for Kids</h3>
+                <p>Create your own video games! Learn game design principles and programming concepts while building exciting projects you can play with friends.</p>
+                <span class="learn-more-btn">Learn More</span>
+            </a>
+            
+            <!-- Course Card 3: Web Development for Kids -->
+            <a href="web-development.html" class="course-card" role="gridcell" data-animation="fade-in-up">
+                <div class="course-icon web-dev" aria-hidden="true">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <h3>Web Development for Kids</h3>
+                <p>Build amazing websites from scratch! Learn HTML, CSS, and JavaScript to create interactive web pages that showcase your creativity.</p>
+                <span class="learn-more-btn">Learn More</span>
+            </a>
+            
+            <!-- Course Card 4: App Development for Kids -->
+            <a href="app-development.html" class="course-card" role="gridcell" data-animation="fade-in-up">
+                <div class="course-icon app-dev" aria-hidden="true">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3>App Development for Kids</h3>
+                <p>Design and build mobile apps for phones and tablets! Learn app development basics and create useful applications for everyday use.</p>
+                <span class="learn-more-btn">Learn More</span>
+            </a>
+            
+            <!-- Course Card 5: Graphic Designing for Kids -->
+            <a href="graphic-designing.html" class="course-card" role="gridcell" data-animation="fade-in-up">
+                <div class="course-icon graphic-design" aria-hidden="true">
+                    <i class="fas fa-palette"></i>
+                </div>
+                <h3>Graphic Designing for Kids</h3>
+                <p>Express your creativity through digital art! Learn design principles, color theory, and create stunning graphics using modern tools.</p>
+                <span class="learn-more-btn">Learn More</span>
+            </a>
+            
+            <!-- Course Card 6: Other Coding Bootcamps -->
+            <a href="coding-bootcamps.html" class="course-card" role="gridcell" data-animation="fade-in-up">
+                <div class="course-icon bootcamps" aria-hidden="true">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <h3>Other Coding Bootcamps</h3>
+                <p>Explore advanced programming concepts and specialized topics! From AI to robotics, discover exciting new areas of technology.</p>
+                <span class="learn-more-btn">Learn More</span>
+            </a>
+            
+        </div>
+    </section>
+
+    <script>
+        // Mobile menu toggle functionality
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        
+        mobileMenuToggle.addEventListener('click', function() {
+            this.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function() {
+                mobileMenuToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+        
+        // Intersection Observer for scroll-triggered animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animated elements
+        document.addEventListener('DOMContentLoaded', () => {
+            const animatedElements = document.querySelectorAll('[data-animation]');
+            animatedElements.forEach(el => {
+                observer.observe(el);
+            });
+        });
+
+        // Scroll progress indicator
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.body.offsetHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.getElementById('scrollProgress').style.width = scrollPercent + '%';
+        });
+
+        // Lanyard mouse follow effect
+        document.addEventListener('mousemove', (e) => {
+            const lanyards = document.querySelectorAll('.lanyard');
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            
+            lanyards.forEach((lanyard, index) => {
+                const speed = (index + 1) * 0.02;
+                const x = (mouseX - centerX) * speed;
+                const y = (mouseY - centerY) * speed;
+                
+                lanyard.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        });
+
+        // Parallax scroll effect for background elements
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallaxElements = document.querySelectorAll('.parallax-circle');
+            
+            parallaxElements.forEach((element, index) => {
+                const speed = (index + 1) * 0.5;
+                const yPos = -(scrolled * speed);
+                element.style.transform = `translateY(${yPos}px) rotate(${scrolled * 0.1}deg)`;
+            });
+        });
+
+        // Add loading animation
+        window.addEventListener('load', () => {
+            document.body.classList.add('loaded');
+        });
+
+        // Smooth reveal animation for course cards
+        const revealCards = () => {
+            const cards = document.querySelectorAll('.course-card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('visible');
+                }, index * 200);
+            });
+        };
+
+        // Trigger card reveal when they come into view
+        const cardObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    revealCards();
+                    cardObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        // Observe the courses grid
+        const coursesGrid = document.querySelector('.courses-grid');
+        if (coursesGrid) {
+            cardObserver.observe(coursesGrid);
+        }
+
+        // Enhanced button interactions
+        document.querySelectorAll('.learn-more-btn').forEach(btn => {
+            btn.addEventListener('mouseenter', () => {
+                btn.style.transform = 'translateY(-2px) scale(1.05)';
+            });
+            
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Enhanced navigation accessibility
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add keyboard navigation support for navigation
+            const navLinks = document.querySelectorAll('.nav-links a, .social-icons a, .logo a');
+            
+            navLinks.forEach(link => {
+                // Add focus indicators
+                link.addEventListener('focus', () => {
+                    link.style.outline = '3px solid #00ff88';
+                    link.style.outlineOffset = '2px';
+                });
+                
+                link.addEventListener('blur', () => {
+                    link.style.outline = '';
+                    link.style.outlineOffset = '';
+                });
+                
+                // Add Enter key support for better accessibility
+                link.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        link.click();
+                    }
+                });
+            });
+            
+            // Add skip link functionality
+            const skipLink = document.createElement('a');
+            skipLink.href = '#courses';
+            skipLink.textContent = 'Skip to main content';
+            skipLink.style.cssText = `
+                position: absolute;
+                top: -40px;
+                left: 6px;
+                background: #00ff88;
+                color: #0A0A0A;
+                padding: 8px 16px;
+                text-decoration: none;
+                border-radius: 4px;
+                font-weight: 600;
+                z-index: 1002;
+                transition: top 0.3s ease;
+            `;
+            
+            skipLink.addEventListener('focus', () => {
+                skipLink.style.top = '6px';
+            });
+            
+            skipLink.addEventListener('blur', () => {
+                skipLink.style.top = '-40px';
+            });
+            
+            document.body.insertBefore(skipLink, document.body.firstChild);
+        });
+
+        // Keyboard navigation support
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+                document.body.classList.add('keyboard-navigation');
+            }
+        });
+
+        // Remove keyboard navigation class on mouse use
+        document.addEventListener('mousedown', () => {
+            document.body.classList.remove('keyboard-navigation');
+        });
+        
+        // Add focus management for better accessibility
+        document.addEventListener('keydown', (e) => {
+            // Escape key to close any open menus or return focus
+            if (e.key === 'Escape') {
+                document.activeElement.blur();
+            }
+        });
+    </script>
+</body>
+</html>
